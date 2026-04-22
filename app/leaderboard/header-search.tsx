@@ -56,7 +56,7 @@ export function HeaderSearch({ className }: { className?: string }) {
         className="absolute left-2.5 size-3.5 text-muted-foreground pointer-events-none"
       />
       <Input
-        type="search"
+        type="text"
         value={draft}
         onChange={(e) => commit(e.target.value)}
         placeholder="Search…"
