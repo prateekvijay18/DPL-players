@@ -123,8 +123,8 @@ export function PlayerForm({
   return (
     <form onSubmit={handleSubmit(onSubmitInternal)} className="space-y-6">
       <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
-        <Input id="name" placeholder="Your name" {...register("name")} />
+        <Label htmlFor="name">Full Name</Label>
+        <Input id="name" placeholder="Enter your full name" {...register("name")} />
         {errors.name && (
           <p className="text-sm text-destructive">{errors.name.message}</p>
         )}
