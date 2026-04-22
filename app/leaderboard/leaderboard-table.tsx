@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/table";
 import { SortHeader } from "./sort-header";
 import { HeaderSearch } from "./header-search";
+import { MobileSortBar } from "./mobile-sort-bar";
 import { PlayerDrawerContent } from "./player-drawer";
 import type { PlayerRow } from "@/lib/queries/players";
 
@@ -29,6 +30,7 @@ export function LeaderboardTable({ players, youId }: Props) {
 
   return (
     <>
+      <MobileSortBar />
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
@@ -36,22 +38,22 @@ export function LeaderboardTable({ players, youId }: Props) {
               <TableHead className="sticky-col left-0 w-14 text-center text-[10px] font-black uppercase tracking-widest">
                 #
               </TableHead>
-              <TableHead className="sticky-col sticky-col-divider left-14 min-w-64">
+              <TableHead className="sticky-col sticky-col-divider left-14 min-w-40 sm:min-w-64">
                 <div className="flex items-center gap-3 py-1">
                   <SortHeader label="Player" sortKey="name" />
-                  <HeaderSearch className="ml-auto w-40 sm:w-52" />
+                  <HeaderSearch className="ml-auto w-32 sm:w-52" />
                 </div>
               </TableHead>
-              <TableHead className="w-20 text-right">
+              <TableHead className="hidden sm:table-cell w-20 text-right">
                 <SortHeader label="Bat" sortKey="battingRating" align="right" />
               </TableHead>
-              <TableHead className="w-20 text-right">
+              <TableHead className="hidden sm:table-cell w-20 text-right">
                 <SortHeader label="Field" sortKey="fieldingRating" align="right" />
               </TableHead>
-              <TableHead className="w-20 text-right">
+              <TableHead className="hidden sm:table-cell w-20 text-right">
                 <SortHeader label="Bowl" sortKey="bowlingRating" align="right" />
               </TableHead>
-              <TableHead className="w-24 text-right">
+              <TableHead className="hidden sm:table-cell w-24 text-right">
                 <SortHeader label="Avg" sortKey="averageRating" align="right" />
               </TableHead>
             </TableRow>
@@ -72,7 +74,7 @@ export function LeaderboardTable({ players, youId }: Props) {
                   <TableCell className="sticky-col left-0 text-center">
                     <RankMedal rank={rank} />
                   </TableCell>
-                  <TableCell className="sticky-col sticky-col-divider left-14">
+                  <TableCell className="sticky-col sticky-col-divider left-14 py-2">
                     <div className="flex items-center gap-3">
                       <PlayerAvatar id={p.id} name={p.name} photoUrl={p.photoUrl} size="sm" />
                       <div className="min-w-0">
@@ -85,13 +87,23 @@ export function LeaderboardTable({ players, youId }: Props) {
                             </span>
                           ) : null}
                         </div>
+                        {/* Ratings sub-row — mobile only */}
+                        <div className="sm:hidden mt-1 flex items-center gap-2 tabular-nums text-xs text-muted-foreground">
+                          <span>🏏 {p.battingRating}</span>
+                          <span className="opacity-30">·</span>
+                          <span>🧤 {p.fieldingRating}</span>
+                          <span className="opacity-30">·</span>
+                          <span>🎳 {p.bowlingRating}</span>
+                          <span className="opacity-30">·</span>
+                          <span className="avg-pill scoreboard-num text-sm">{p.averageRating}</span>
+                        </div>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-right tabular-nums font-medium">{p.battingRating}</TableCell>
-                  <TableCell className="text-right tabular-nums font-medium">{p.fieldingRating}</TableCell>
-                  <TableCell className="text-right tabular-nums font-medium">{p.bowlingRating}</TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="hidden sm:table-cell text-right tabular-nums font-medium">{p.battingRating}</TableCell>
+                  <TableCell className="hidden sm:table-cell text-right tabular-nums font-medium">{p.fieldingRating}</TableCell>
+                  <TableCell className="hidden sm:table-cell text-right tabular-nums font-medium">{p.bowlingRating}</TableCell>
+                  <TableCell className="hidden sm:table-cell text-right">
                     <span className="avg-pill scoreboard-num text-lg">{p.averageRating}</span>
                   </TableCell>
                 </TableRow>
