@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # DPL Players 🏏
 
 Self-rating and leaderboard platform for a casual cricket league. Anyone who has the link can register themselves, submit their three skill ratings (batting / fielding / bowling, 0.0–5.0 by 0.1), and browse a filterable, sortable, searchable leaderboard.
@@ -227,3 +228,6 @@ proxy.ts                   Cookie-based route gating (Next 16 replaces middlewar
 ## License
 
 Private — for internal use.
+=======
+# DPL-players
+>>>>>>> bdee686e93d21975a689b618cae9d0944de8bb6d
