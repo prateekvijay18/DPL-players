@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Role {
+  PLAYER
+  CAPTAIN
+}
+
+model Player {
+  id                String   @id @default(cuid())
+  name              String   @db.VarChar(50)
+  gender            Gender
+  role              Role     @default(PLAYER)
+  photoUrl          String?
+
+  battingRating     Decimal  @db.Decimal(3, 2)
+  fieldingRating    Decimal  @db.Decimal(3, 2)
+  bowlingRating     Decimal  @db.Decimal(3, 2)
+
+  /// Generated column. Do NOT write to this field from application code.
+  /// The initial migration emits a plain DEFAULT; the follow-up migration
+  /// replaces it with GENERATED ALWAYS AS ... STORED.
+  averageRating     Decimal  @db.Decimal(4, 2) @default(dbgenerated("((\"battingRating\" + \"fieldingRating\" + \"bowlingRating\") / 3.0)"))
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([averageRating(sort: Desc)])
+  @@index([name])
+  @@map("players")
+}

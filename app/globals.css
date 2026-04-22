@@ -1,26 +1,472 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-heading);
+  --font-display: var(--font-display);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  /* Cricket palette utilities */
+  --color-pitch: var(--pitch);
+  --color-pitch-deep: var(--pitch-deep);
+  --color-pitch-glow: var(--pitch-glow);
+  --color-gold: var(--gold);
+  --color-gold-bright: var(--gold-bright);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-ball: var(--ball);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ───────────────────────────────────────────────────────────── */
+/*  LIGHT THEME — warm stadium-daylight                           */
+/* ───────────────────────────────────────────────────────────── */
+:root {
+  --pitch: oklch(0.52 0.16 148);         /* vivid grass */
+  --pitch-deep: oklch(0.28 0.1 148);     /* deep turf */
+  --pitch-glow: oklch(0.78 0.2 148);     /* highlight spray */
+  --gold: oklch(0.78 0.16 82);           /* trophy */
+  --gold-bright: oklch(0.88 0.2 85);     /* spotlight */
+  --gold-foreground: oklch(0.2 0.05 82);
+  --ball: oklch(0.52 0.22 27);           /* ball red */
+
+  --background: oklch(0.985 0.008 95);   /* cream */
+  --foreground: oklch(0.15 0.02 148);
+
+  --card: oklch(1 0 0);
+  --card-foreground: var(--foreground);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--foreground);
+
+  --primary: var(--pitch);
+  --primary-foreground: oklch(0.985 0.008 95);
+
+  --secondary: oklch(0.94 0.02 148);
+  --secondary-foreground: var(--pitch-deep);
+
+  --muted: oklch(0.95 0.012 95);
+  --muted-foreground: oklch(0.5 0.02 148);
+
+  --accent: var(--gold);
+  --accent-foreground: var(--gold-foreground);
+
+  --destructive: oklch(0.58 0.24 27);
+
+  --border: oklch(0.9 0.014 95);
+  --input: oklch(0.95 0.01 95);
+  --ring: var(--pitch);
+
+  --chart-1: var(--pitch);
+  --chart-2: var(--gold);
+  --chart-3: oklch(0.55 0.12 148);
+  --chart-4: oklch(0.65 0.08 85);
+  --chart-5: var(--ball);
+
+  --radius: 0.875rem;
+
+  --sidebar: oklch(0.985 0.008 95);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--pitch);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: var(--gold);
+  --sidebar-accent-foreground: var(--gold-foreground);
+  --sidebar-border: oklch(0.9 0.014 95);
+  --sidebar-ring: var(--pitch);
+}
+
+/* ───────────────────────────────────────────────────────────── */
+/*  DARK THEME — stadium at night                                 */
+/* ───────────────────────────────────────────────────────────── */
+.dark {
+  --pitch: oklch(0.68 0.18 148);         /* neon grass */
+  --pitch-deep: oklch(0.22 0.06 148);    /* dugout green */
+  --pitch-glow: oklch(0.85 0.22 148);    /* bright highlight */
+  --gold: oklch(0.85 0.17 82);           /* bright trophy */
+  --gold-bright: oklch(0.92 0.2 85);     /* spotlight */
+  --gold-foreground: oklch(0.18 0.05 82);
+  --ball: oklch(0.65 0.22 27);
+
+  --background: oklch(0.14 0.01 240);    /* deep night navy */
+  --foreground: oklch(0.97 0.01 95);
+
+  --card: oklch(0.19 0.015 240);         /* elevated surface */
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.22 0.018 240);
+  --popover-foreground: var(--foreground);
+
+  --primary: var(--pitch);
+  --primary-foreground: oklch(0.12 0.01 240);
+
+  --secondary: oklch(0.26 0.025 240);
+  --secondary-foreground: var(--foreground);
+
+  --muted: oklch(0.22 0.015 240);
+  --muted-foreground: oklch(0.68 0.02 95);
+
+  --accent: var(--gold);
+  --accent-foreground: var(--gold-foreground);
+
+  --destructive: oklch(0.65 0.2 22);
+
+  --border: oklch(1 0 0 / 0.1);
+  --input: oklch(1 0 0 / 0.12);
+  --ring: var(--pitch);
+
+  --chart-1: var(--pitch);
+  --chart-2: var(--gold);
+  --chart-3: oklch(0.7 0.15 148);
+  --chart-4: oklch(0.75 0.15 82);
+  --chart-5: var(--ball);
+
+  --sidebar: oklch(0.17 0.015 240);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--pitch);
+  --sidebar-primary-foreground: oklch(0.12 0.01 240);
+  --sidebar-accent: var(--gold);
+  --sidebar-accent-foreground: var(--gold-foreground);
+  --sidebar-border: oklch(1 0 0 / 0.1);
+  --sidebar-ring: var(--pitch);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-heading), ui-serif, Georgia, serif;
   }
 }
 
-body {
+/* ───────────────────────────────────────────────────────────── */
+/*  Cricket-league specific utilities                             */
+/* ───────────────────────────────────────────────────────────── */
+
+/* Animated stadium backdrop — shifting aurora behind the UI */
+.stadium-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+.stadium-bg::before,
+.stadium-bg::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.55;
+  animation: stadium-drift 28s ease-in-out infinite;
+}
+.stadium-bg::before {
+  inset: -10% -10% auto auto;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, var(--pitch-glow) 0%, transparent 70%);
+}
+.stadium-bg::after {
+  inset: auto auto -15% -10%;
+  width: 55vw;
+  height: 55vw;
+  background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+  animation-delay: -14s;
+  opacity: 0.35;
+}
+@keyframes stadium-drift {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-8%, 6%); }
+}
+.dark .stadium-bg::before { opacity: 0.3; }
+.dark .stadium-bg::after  { opacity: 0.2; }
+
+/* Glassmorphism card — frosted, bordered, high legibility */
+.glass {
+  background: color-mix(in oklab, var(--card) 72%, transparent);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, var(--foreground) 5%, transparent) inset,
+    0 20px 40px -24px color-mix(in oklab, var(--foreground) 30%, transparent);
+}
+
+/* Stadium scoreboard hero — deep-to-pitch gradient, gold halo, grid overlay */
+.scoreboard-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 130%, color-mix(in oklab, var(--gold-bright) 60%, transparent) 0%, transparent 70%),
+    linear-gradient(135deg, oklch(0.1 0.02 148) 0%, var(--pitch-deep) 55%, oklch(0.28 0.08 148) 100%);
+  border: 1px solid color-mix(in oklab, var(--gold-bright) 18%, transparent);
+}
+.scoreboard-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, oklch(1 0 0 / 0.02) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(90deg, oklch(1 0 0 / 0.02) 0 1px, transparent 1px 32px);
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+.scoreboard-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -30% 0;
+  height: 60%;
+  background: radial-gradient(ellipse at 50% 0%, oklch(0.85 0.22 85 / 0.35) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Scoreboard number — big, condensed, with subtle glow */
+.scoreboard-num {
+  font-family: var(--font-display), "Helvetica Neue", Arial, sans-serif;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  letter-spacing: 0.02em;
+  line-height: 0.85;
+}
+.scoreboard-glow {
+  text-shadow:
+    0 0 24px color-mix(in oklab, var(--gold-bright) 60%, transparent),
+    0 0 60px color-mix(in oklab, var(--gold-bright) 30%, transparent);
+}
+
+/* Ball-seam divider — twin curved dashed lines suggesting a cricket ball seam */
+.seam-divider {
+  position: relative;
+  height: 24px;
+  margin: 1rem 0;
+}
+.seam-divider::before,
+.seam-divider::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background:
+    repeating-linear-gradient(90deg, var(--ball) 0 6px, transparent 6px 12px);
+  border-radius: 2px;
+}
+.seam-divider::before { top: 8px; }
+.seam-divider::after  { top: 14px; }
+
+/* Podium tile — dimensional card with gradient border + spotlight */
+.podium-card {
+  position: relative;
+  border-radius: 1.25rem;
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklab, var(--card) 92%, var(--gold) 8%) 0%,
+      var(--card) 100%);
+  border: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
+  overflow: hidden;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.podium-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(135deg,
+    color-mix(in oklab, var(--gold-bright) 60%, transparent),
+    transparent 50%,
+    color-mix(in oklab, var(--pitch) 40%, transparent));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.7;
+}
+.podium-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -40% 0;
+  height: 70%;
+  background: radial-gradient(ellipse at 50% 0%, color-mix(in oklab, var(--pitch-glow) 30%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+.podium-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 60px -30px color-mix(in oklab, var(--foreground) 40%, transparent);
+}
+.podium-card:hover::after { opacity: 1; }
+
+.podium-champion {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklab, var(--card) 85%, var(--gold) 15%) 0%,
+      var(--card) 100%);
+}
+.podium-champion::before {
+  background: linear-gradient(135deg,
+    var(--gold-bright),
+    color-mix(in oklab, var(--gold) 80%, transparent) 50%,
+    color-mix(in oklab, var(--gold-bright) 60%, transparent));
+  opacity: 1;
+  padding: 2px;
+}
+
+/* Leaderboard row — subtle interactions */
+.lb-row {
+  transition: background-color 150ms ease, box-shadow 150ms ease;
+}
+.lb-row:hover {
+  background-color: color-mix(in oklab, var(--primary) 6%, transparent);
+  box-shadow: inset 3px 0 0 var(--gold-bright);
+}
+.lb-row-you {
+  background: linear-gradient(90deg,
+    color-mix(in oklab, var(--primary) 14%, transparent) 0%,
+    transparent 70%);
+  box-shadow: inset 3px 0 0 var(--primary);
+}
+
+/* Average-rating pill — gold gradient, scoreboard font */
+.avg-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%);
+  color: var(--gold-foreground);
+  font-weight: 800;
+  font-feature-settings: "tnum" 1;
+  box-shadow:
+    0 1px 0 oklch(0 0 0 / 0.1),
+    inset 0 -2px 0 oklch(0 0 0 / 0.1),
+    0 0 20px color-mix(in oklab, var(--gold-bright) 30%, transparent);
+}
+
+/* Gold button variant — for hero CTA */
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
+  color: var(--gold-foreground);
+  font-weight: 700;
+  border: 1px solid color-mix(in oklab, var(--gold-foreground) 20%, transparent);
+  box-shadow:
+    0 4px 14px -4px color-mix(in oklab, var(--gold-bright) 60%, transparent),
+    inset 0 1px 0 oklch(1 0 0 / 0.3);
+  transition: transform 120ms ease, box-shadow 180ms ease, filter 120ms ease;
+}
+.btn-gold:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow:
+    0 8px 24px -6px color-mix(in oklab, var(--gold-bright) 70%, transparent),
+    inset 0 1px 0 oklch(1 0 0 / 0.4);
+}
+
+/* Rating slider — gradient track, pitch thumb */
+.rating-slider [data-slot="slider-track"] {
+  background: linear-gradient(
+    to right,
+    oklch(0.58 0.22 27) 0%,
+    oklch(0.8 0.18 82) 50%,
+    oklch(0.6 0.2 145) 100%
+  );
+  opacity: 0.75;
+  height: 0.5rem !important;
+}
+.rating-slider [data-slot="slider-range"] {
+  background-color: transparent;
+}
+.rating-slider [data-slot="slider-thumb"] {
+  width: 1.4rem;
+  height: 1.4rem;
+  background: var(--pitch);
+  border: 2px solid color-mix(in oklab, var(--foreground) 20%, transparent);
+  box-shadow:
+    0 4px 12px color-mix(in oklab, var(--pitch) 60%, transparent),
+    0 0 0 4px color-mix(in oklab, var(--pitch) 20%, transparent);
+}
+
+/* Subtle in from bottom animation for heroes */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise { animation: rise 500ms ease-out both; }
+.rise-delay-1 { animation-delay: 80ms; }
+.rise-delay-2 { animation-delay: 160ms; }
+.rise-delay-3 { animation-delay: 240ms; }
+
+/* Mobile sticky rank + player columns on the leaderboard table */
+.sticky-col {
+  position: sticky;
+  z-index: 5;
+  background-color: var(--card);
+}
+.lb-row:hover .sticky-col {
+  background-color: color-mix(in oklab, var(--primary) 6%, var(--card));
+}
+.lb-row-you .sticky-col {
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--primary) 14%, var(--card)) 0%,
+    var(--card) 100%
+  );
+}
+.sticky-col-divider {
+  box-shadow: 1px 0 0 0 color-mix(in oklab, var(--foreground) 8%, transparent);
+}
+@media (min-width: 640px) {
+  /* Above the mobile breakpoint the table fits — drop sticky entirely so header reads naturally */
+  .sticky-col { position: static; }
+  .sticky-col-divider { box-shadow: none; }
 }
