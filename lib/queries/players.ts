@@ -6,6 +6,7 @@ export type PlayerRow = {
   id: string;
   name: string;
   role: "PLAYER" | "CAPTAIN";
+  gender: "MALE" | "FEMALE";
   photoUrl: string | null;
   battingRating: string;
   fieldingRating: string;
@@ -63,6 +64,7 @@ export async function queryPlayers(q: LeaderboardQuery): Promise<LeaderboardResu
     id: r.id,
     name: r.name,
     role: r.role,
+    gender: r.gender,
     photoUrl: r.photoUrl,
     battingRating: r.battingRating.toFixed(1),
     fieldingRating: r.fieldingRating.toFixed(1),
