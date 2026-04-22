@@ -9,6 +9,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { GenderFilterToggle } from "./gender-filter";
 import { Podium } from "./podium";
 import { LeaderboardTable } from "./leaderboard-table";
+import { ClearFiltersButton } from "./clear-filters";
 
 export const dynamic = "force-dynamic";
 
@@ -31,14 +32,15 @@ export default async function LeaderboardPage({ searchParams }: Props) {
 
   const { players } = await queryPlayers(q);
 
-  // Podium uses the top 3 of the unfiltered default-sorted ranking, only shown on
-  // the default view (no search, no gender filter, default sort) so ranking is unambiguous.
-  const isDefaultView =
-    !q.search &&
-    q.gender === "ALL" &&
-    q.sort === "averageRating" &&
-    q.order === "desc";
-  const podiumTop = isDefaultView ? players.slice(0, 3) : [];
+  // Podium always shows the best 3 by the current sort metric, regardless of
+  // whether the table is asc/desc. Hidden only when search is active (podium of
+  // search hits is meaningless) or sort is by name (alphabetical isn't ranking).
+  const showPodium = !q.search && q.sort !== "name" && players.length > 0;
+  const podiumTop = showPodium
+    ? q.order === "desc"
+      ? players.slice(0, 3)
+      : players.slice(-3).reverse()
+    : [];
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-6 sm:py-10 space-y-8">
@@ -75,8 +77,9 @@ export default async function LeaderboardPage({ searchParams }: Props) {
       ) : null}
 
       {/* ─── Gender filter ─────────────────────────────────── */}
-      <div className="flex justify-center rise rise-delay-2">
+      <div className="flex flex-wrap items-center justify-center gap-3 rise rise-delay-2">
         <GenderFilterToggle />
+        <ClearFiltersButton />
       </div>
 
       {/* Table */}
@@ -89,7 +92,11 @@ export default async function LeaderboardPage({ searchParams }: Props) {
             </p>
             {q.search ? (
               <Button asChild variant="outline" size="sm">
-                <Link href="/leaderboard">Clear search</Link>
+                <Link
+                  href={q.gender === "ALL" ? "/leaderboard" : `/leaderboard?gender=${q.gender}`}
+                >
+                  Clear search
+                </Link>
               </Button>
             ) : (
               <p className="text-sm text-muted-foreground max-w-xs">

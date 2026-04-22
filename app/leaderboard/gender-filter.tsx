@@ -3,6 +3,7 @@
 import { parseAsStringEnum, useQueryState } from "nuqs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { GENDER_FILTER_VALUES, type GenderFilter } from "@/lib/schemas/leaderboard";
+import { useNavigationStore } from "@/lib/stores/navigation-store";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -16,6 +17,7 @@ export function GenderFilterToggle({ className }: Props) {
       .withDefault("ALL")
       .withOptions({ shallow: false }),
   );
+  const startNav = useNavigationStore((s) => s.start);
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
@@ -27,6 +29,7 @@ export function GenderFilterToggle({ className }: Props) {
         value={value}
         onValueChange={(v) => {
           if (!v) return;
+          startNav();
           setValue(v === "ALL" ? null : (v as GenderFilter));
         }}
         variant="outline"

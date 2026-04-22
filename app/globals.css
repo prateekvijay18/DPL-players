@@ -182,6 +182,20 @@
   h1, h2, h3 {
     font-family: var(--font-heading), ui-serif, Georgia, serif;
   }
+  /* Every interactive element gets a pointer cursor — except disabled ones. */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  a[href],
+  label[for],
+  summary,
+  select:not(:disabled),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  [type="checkbox"]:not(:disabled),
+  [type="radio"]:not(:disabled) {
+    cursor: pointer;
+  }
 }
 
 /* ───────────────────────────────────────────────────────────── */

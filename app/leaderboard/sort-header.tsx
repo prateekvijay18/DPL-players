@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import type { SortKey } from "@/lib/schemas/leaderboard";
+import { useNavigationStore } from "@/lib/stores/navigation-store";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
 export function SortHeader({ label, sortKey, align = "left", className }: Props) {
   const pathname = usePathname();
   const params = useSearchParams();
+  const startNav = useNavigationStore((s) => s.start);
   const currentSort = params.get("sort") ?? "averageRating";
   const currentOrder = params.get("order") ?? "desc";
   const isActive = currentSort === sortKey;
@@ -37,6 +39,7 @@ export function SortHeader({ label, sortKey, align = "left", className }: Props)
     <Link
       href={`${pathname}?${next.toString()}`}
       scroll={false}
+      onClick={startNav}
       className={cn(
         "inline-flex items-center gap-1 font-medium",
         isActive ? "text-primary" : "text-muted-foreground hover:text-foreground",

@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { PlayerAvatar } from "@/components/player-avatar";
 import { RankMedal } from "@/components/rank-medal";
 import { CaptainBadge } from "@/components/captain-badge";
 import { Sheet } from "@/components/ui/sheet";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -18,7 +20,52 @@ import { SortHeader } from "./sort-header";
 import { HeaderSearch } from "./header-search";
 import { MobileSortBar } from "./mobile-sort-bar";
 import { PlayerDrawerContent } from "./player-drawer";
+import { useNavigationStore } from "@/lib/stores/navigation-store";
 import type { PlayerRow } from "@/lib/queries/players";
+
+function useIsNavigating() {
+  const pending = useNavigationStore((s) => s.pending);
+  const end = useNavigationStore((s) => s.end);
+  const searchParams = useSearchParams();
+
+  // Clear pending once the new URL is committed (React re-rendered with the new data).
+  useEffect(() => {
+    end();
+  }, [searchParams, end]);
+
+  return pending;
+}
+
+function SkeletonRow() {
+  return (
+    <TableRow className="border-b border-border/50">
+      <TableCell className="sticky-col left-0 text-center">
+        <Skeleton className="mx-auto size-7 rounded-full" />
+      </TableCell>
+      <TableCell className="sticky-col sticky-col-divider left-14 py-2">
+        <div className="flex items-center gap-3">
+          <Skeleton className="size-8 shrink-0 rounded-full" />
+          <div className="min-w-0 flex-1 space-y-1.5">
+            <Skeleton className="h-4 w-32" />
+            <Skeleton className="h-3 w-44 sm:hidden" />
+          </div>
+        </div>
+      </TableCell>
+      <TableCell className="hidden sm:table-cell text-right">
+        <Skeleton className="ml-auto h-4 w-8" />
+      </TableCell>
+      <TableCell className="hidden sm:table-cell text-right">
+        <Skeleton className="ml-auto h-4 w-8" />
+      </TableCell>
+      <TableCell className="hidden sm:table-cell text-right">
+        <Skeleton className="ml-auto h-4 w-8" />
+      </TableCell>
+      <TableCell className="hidden sm:table-cell text-right">
+        <Skeleton className="ml-auto h-6 w-14 rounded-full" />
+      </TableCell>
+    </TableRow>
+  );
+}
 
 type Props = {
   players: PlayerRow[];
@@ -27,6 +74,8 @@ type Props = {
 
 export function LeaderboardTable({ players, youId }: Props) {
   const [selected, setSelected] = useState<{ player: PlayerRow; rank: number } | null>(null);
+  const navigating = useIsNavigating();
+  const skeletonCount = Math.min(Math.max(players.length, 6), 10);
 
   return (
     <>
@@ -59,7 +108,11 @@ export function LeaderboardTable({ players, youId }: Props) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {players.map((p, i) => {
+            {navigating
+              ? Array.from({ length: skeletonCount }).map((_, i) => (
+                  <SkeletonRow key={i} />
+                ))
+              : players.map((p, i) => {
               const rank = i + 1;
               const isYou = p.id === youId;
               return (

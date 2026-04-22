@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useNavigationStore } from "@/lib/stores/navigation-store";
 import type { SortKey } from "@/lib/schemas/leaderboard";
 
 const SORT_OPTIONS: { label: string; key: SortKey }[] = [
@@ -16,6 +17,7 @@ const SORT_OPTIONS: { label: string; key: SortKey }[] = [
 export function MobileSortBar() {
   const pathname = usePathname();
   const params = useSearchParams();
+  const startNav = useNavigationStore((s) => s.start);
   const currentSort = params.get("sort") ?? "averageRating";
   const currentOrder = params.get("order") ?? "desc";
 
@@ -38,6 +40,7 @@ export function MobileSortBar() {
             key={key}
             href={`${pathname}?${next.toString()}`}
             scroll={false}
+            onClick={startNav}
             className={cn(
               "shrink-0 inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold transition-colors",
               isActive
