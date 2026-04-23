@@ -40,7 +40,7 @@ export function PlayerDrawerContent({ player, rank, isYou, onClose }: Props) {
             name={player.name}
             photoUrl={player.photoUrl}
             size="lg"
-            className="size-24 text-3xl ring-4 ring-primary/20"
+            className="size-60 text-5xl ring-4 ring-primary/20"
           />
           <div>
             <div className="flex flex-wrap items-center justify-center gap-2">
